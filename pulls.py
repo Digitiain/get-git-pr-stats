@@ -1,12 +1,14 @@
 
+import config
 import requests
 
 from datetime import datetime, timedelta
 
 
 def main():
-    parameters = {"state": "closed"}
-    response = requests.get("https://api.github.com/repos/alphagov/re-build-systems/pulls", params=parameters)
+    parameters = {"state": config.PR_STATE}
+    request_url = "https://api.github.com/repos/" + config.REPO_URL_SUFFIX + "/pulls"
+    response = requests.get(request_url, params=parameters)
     if response.status_code == 200:
         print("Response successful with status code 200")
     else:
@@ -48,7 +50,7 @@ def get_recent_merges(listofmerges):
     today = datetime.now()
 
     finalnumberofmerges = 0
-    daydiff = 14
+    daydiff = config.NUM_DAYS_AGO
 
     print("Counting the number of merges that have happened in the last " + str(daydiff) + " days...")
 
