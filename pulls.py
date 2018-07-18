@@ -1,7 +1,5 @@
 
-import json
 import requests
-import time
 
 from datetime import datetime, timedelta
 
@@ -30,9 +28,6 @@ def main():
         else:
             unmerged += 1
 
-    # print("There have been " + str(merged) + " pull requests merged.")
-    # print("There have been " + str(unmerged) + " pull requests that weren't merged.")
-
     convert_merged_at_to_datetime_object(listofmerges)
 
 
@@ -41,15 +36,9 @@ def convert_merged_at_to_datetime_object(listofmerges):
     convertedmerges = []
 
     print("Converting Github's date format to one that can be compared with today's datetime...")
+
     for merge in listofmerges:
-        # print("Old merge: ")
-        # print(merge)
-        # print(type(merge))
         convertedmerges.append(datetime.strptime(str(merge), '%Y-%m-%dT%H:%M:%SZ')) # Original output looks like this: 2018-07-17T15:54:49Z
-    #     print("New merge: ")
-    #     print(merge)
-    #     print(type(merge))
-    # print(convertedmerges)
 
     get_recent_merges(convertedmerges)
 
@@ -57,12 +46,12 @@ def convert_merged_at_to_datetime_object(listofmerges):
 def get_recent_merges(listofmerges):
 
     today = datetime.now()
-    twoweeksago = timedelta(days=14)
 
     finalnumberofmerges = 0
     daydiff = 14
 
     print("Counting the number of merges that have happened in the last " + str(daydiff) + " days...")
+
     for merge in listofmerges:
         if (today - merge) < timedelta(daydiff):
             finalnumberofmerges += 1
